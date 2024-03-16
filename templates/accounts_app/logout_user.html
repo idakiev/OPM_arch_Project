@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Out User Page</title>
+</head>
+<body>
+    <h1>You have successfully logged out!</h1>
+    
+    <a href="{% url 'index' %}"><button>Return to HOME</button></a>
+    
+    <input type="hidden" name="next" value="{{ next }}" />
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+    <meta charset="UTF-8">
+    {% block title %}
+    <title>OPMarch - HOME</title>
+    {% endblock %}
+
+
+{% block content %}
+
+<h1>Hello, {{ user }}!</h1>
+
+{% if user.is_authenticated %}
+    
+    <a href="{% url 'profile_user' %}"><button>Profile Page</button></a>
+
+    <form method="post" action="{% url 'logout_user' %}">
+        {% csrf_token %}
+        <button>Log out</button>
+    </form>
+
+{% else %}
+    <h3>
+        If you have an account: <a href="{% url 'login_user' %}"><button>Log In</button></a>
+        or <a href="{% url 'register_user' %}"><button>Register</button></a>
+    </h3>
+
+{% endif %}
+
+{% endblock %}

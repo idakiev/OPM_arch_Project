@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Client Create Page</title>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button>Create Client</button>
+
+    </form>
+{% endblock %}

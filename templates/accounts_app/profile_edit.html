@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    
+    <title>Profile Edit Page</title>
+    
+{% endblock %}
+
+{% block content %}
+
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    Email: <label>
+    <input class="button" placeholder="{{ user.email }}" disabled>
+</label>
+        
+    {{ form.as_p }}
+    <button>Edit Profile</button>
+</form>
+    
+{% endblock %}

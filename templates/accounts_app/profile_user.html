@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>OPMarch - Profile User Page</title>
+{% endblock %}
+
+{% block content %}
+
+    <h1>This is the profile page of -- {{ request.user.email }} --</h1>
+
+    <form method="post" action="{% url 'logout_user' %}">
+        {% csrf_token %}
+        <button>Log out</button>
+
+    </form>
+
+    <a href="{% url 'profile_edit' pk=user.pk %}">
+        <button>Edit Profile</button>
+    </a>
+
+    <ul>
+        <li>First Name: {{ user.profile.first_name|default:"Unknown" }}</li>
+        <li>Last Name: {{ user.profile.last_name|default:"Unknown" }}</li>
+        <li>Email address: {{ user.email|urlize }}</li>
+
+        <li>Telephone: {{ user.profile.phone_number }}</li>
+        {% if user.profile.profile_picture %}
+            <li>Profile Picture: <img src="{{ user.profile.profile_picture.url }}" alt="profile_picture" height="150">
+        {% endif %}
+        </li>
+
+        <br>
+
+        <li>Authorized: {{ user.is_staff }}</li>
+        <li>Speciality: {{ user.profile.get_speciality_display }}</li>
+        <li>Role: {{ user.profile.get_role_display }}</li>
+        <li>Last login: {{ user.last_login }}</li>
+        <li>Company: {{ user.company }}</li>
+    </ul>
+
+    <a href="{% url 'index' %}">
+        <button>Return to HOME</button>
+    </a>
+
+{% endblock %}

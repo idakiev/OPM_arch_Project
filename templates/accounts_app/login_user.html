@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login User Page</title>
+</head>
+<body>
+
+    <form method="post" action="{% url 'login_user' %}?next={{ next }}">
+        
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button>Log IN</button>
+        or <a href="{% url 'register_user' %}">Register</a>
+        
+    </form>
+
+</body>
+</html>
