@@ -6,51 +6,64 @@
 </head>
 
 <header>
-        
+
     <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'index' %}">OPMarch</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'index' %}active{% endif %}" aria-current="page" 
-             href="{% url 'index' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'profile_user' %}active{% endif %}" 
-             href="{% url 'profile_user' %}">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'client_create' %}active{% endif %}" 
-             href="{% url 'client_create' %}">Create Client</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'client_details' %}active{% endif %}" 
-             href="{% url 'client_details' %}">Details Client</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'register_user' %}active{% endif %}" 
-             href="{% url 'register_user' %}">Register</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'login_user' %}active{% endif %}" 
-             href="{% url 'login_user' %}">Log In</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link {% if request.resolver_match.view_name == 'logout_user' %}active{% endif %}" 
-             href="{% url 'logout_user' %}">Log Out</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">{{ request.user }}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-    
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">OPMarch</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'index' %}active{% endif %}"
+                           aria-current="page"
+                           href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'profile_user' %}active{% endif %}"
+                           href="{% url 'profile_user' %}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'client_create' %}active{% endif %}"
+                           href="{% url 'client_create' %}">Create Client</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'client_details' %}active{% endif %}"
+                           href="{% url 'client_details' %}">Details Client</a>
+                    </li>
+                    {% endif %}    
+                
+                    {% if not request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'register_user' %}active{% endif %}"
+                           href="{% url 'register_user' %}">Register</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'login_user' %}active{% endif %}"
+                           href="{% url 'login_user' %}">Log In</a>
+                    </li>
+                        
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'logout_user' %}active{% endif %}"
+                           href="{% url 'logout_user' %}">Log Out</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">{{ request.user }}</a>
+                    </li>
+                    {% endif %}
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 </header>
 
 

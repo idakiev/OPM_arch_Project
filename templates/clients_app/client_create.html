@@ -5,12 +5,18 @@
 {% endblock %}
 
 {% block content %}
+    
+    {% if request.user.is_staff %}
     <form method="post" action="">
 
         {% csrf_token %}
         {{ form.as_p }}
 
         <button>Create Client</button>
-
     </form>
+    
+    {% else %}
+    You do not have permissions for that!
+    {% endif %}
+    
 {% endblock %}

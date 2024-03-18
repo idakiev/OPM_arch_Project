@@ -41,12 +41,15 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'smart_selects',
+]
 
 OPM_ARCH_PROJECT_APPS = [
     'OPM_arch_Project.web_app',
     'OPM_arch_Project.accounts_app',
     'OPM_arch_Project.clients_app',
+    'OPM_arch_Project.projects_app',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + OPM_ARCH_PROJECT_APPS
@@ -152,3 +155,6 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'accounts_app.AppUser'
+
+JQUERY_URL = False
+USE_DJANGO_JQUERY = True

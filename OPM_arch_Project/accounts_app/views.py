@@ -17,9 +17,6 @@ class LoginUserView(auth_views.LoginView):
     template_name = 'accounts_app/login_user.html'
     redirect_authenticated_user = True
 
-    def get_redirect_url(self):
-        return reverse_lazy('index')
-
 
 class LogOutUserView(auth_views.LogoutView):
     template_name = 'accounts_app/logout_user.html'

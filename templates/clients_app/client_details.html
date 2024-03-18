@@ -13,7 +13,7 @@
 {{ request.user.client.telephone_number }}
 
 
-{% if request.user.is_superuser %}
+{% if request.user.is_staff %}
     <h2>List of all the clients:</h2>
     {% for client in client_list %}
         {% if not client.is_main %}

@@ -5,7 +5,8 @@
     <title>Client Update Page</title>
 </head>
 <body>
-        
+
+    {% if request.user.is_staff %}
     <form method="post" action="">
         
         {% csrf_token %}
@@ -14,6 +15,10 @@
         <button>Update</button>
         
     </form>
+        
+    {% else %}
+    You do not have permissions for that!
+    {% endif %}
     
 </body>
 </html>
