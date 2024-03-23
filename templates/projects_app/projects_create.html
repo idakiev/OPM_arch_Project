@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title>Project Create Page</title>
+{% endblock %}
+
+{% block content %}
+    
+    {% if request.user.is_staff %}
+    <form method="post" action="">
+
+        {% csrf_token %}
+        {{ form.media.js }}
+        {{ form.as_p }}
+
+        <input type="submit" value="Create" />
+    </form>
+    
+    {% else %}
+    You do not have permissions for that!
+    {% endif %}
+    
+{% endblock %}

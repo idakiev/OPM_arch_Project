@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}
+    <title>Projects Details Page</title>
+{% endblock %}
+
+{% block content %}
+
+<body>
+
+
+    <h2>Custom tag:</h2>
+    
+    {% show_projects %}
+
+    <h3>Create project:</h3>
+    <a href="{% url 'projects_create' %}"><button class="btn btn-primary">Add new project</button></a>
+
+
+</body>
+
+{% endblock %}

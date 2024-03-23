@@ -1,10 +1,10 @@
 from django import forms
 
-from OPM_arch_Project.projects_app.models import Project
+from OPM_arch_Project.projects_app.models import BaseProject
 
 
-class ProjectCreateForm(forms.ModelForm):
+class ProjectsCreateForm(forms.ModelForm):
 
     class Meta:
-        model = Project
+        model = BaseProject
         fields = '__all__'

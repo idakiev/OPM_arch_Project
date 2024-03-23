@@ -1,5 +1,6 @@
 
 from django.contrib.auth import mixins as auth_mixins, get_user_model, login
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import views as auth_views
@@ -20,7 +21,6 @@ class LoginUserView(auth_views.LoginView):
 
 class LogOutUserView(auth_views.LogoutView):
     template_name = 'accounts_app/logout_user.html'
-    next_page = reverse_lazy('logout_user')
 
 
 # TODO: Check how to fix the auth process if email is existing in the db.
@@ -35,7 +35,7 @@ def check_auth_user(request):
         for mail in users_emails:
             if form.data['email'] in mail:
                 user = UserModel.objects.get(email=form.data['email'])
-                return redirect('register_user')
+                return redirect('login_user')
 
     context = {
         'form': form,
@@ -69,10 +69,23 @@ class ProfileUserView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = 'accounts_app/profile_user.html'
 
 
+class ProfileDetailsUserView(auth_mixins.LoginRequiredMixin, views.DetailView):
+    model = UserModel
+    template_name = 'accounts_app/profile_details.html'
+
+
 class ProfileEditUserView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Profile
     form_class = EditProfileForm
     template_name = 'accounts_app/profile_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        result = super().get(self, *args, **kwargs)
+
+        if request.user.pk == self.object.pk or request.user.is_superuser:
+            return result
+        else:
+            return render(request, template_name='403.html')
 
     def get_success_url(self, **kwargs):
         return reverse_lazy(

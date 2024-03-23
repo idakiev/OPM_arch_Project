@@ -30,8 +30,17 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = '__all__'
+        labels = {
+            'user': 'Email',
+        }
         widgets = {
-            'user': forms.HiddenInput(),
-            'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
+            'user': forms.Select(
+                attrs={'disabled': 'disabled'},
+            ),
+            'first_name': forms.TextInput(
+                attrs={'placeholder': 'First Name'},
+            ),
+            'last_name': forms.TextInput(
+                attrs={'placeholder': 'Last Name'},
+            ),
         }

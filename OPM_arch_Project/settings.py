@@ -156,5 +156,4 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'accounts_app.AppUser'
 
-JQUERY_URL = False
 USE_DJANGO_JQUERY = True

@@ -16,49 +16,53 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                
+
                     {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'index' %}active{% endif %}"
-                           aria-current="page"
-                           href="{% url 'index' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'profile_user' %}active{% endif %}"
-                           href="{% url 'profile_user' %}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'client_create' %}active{% endif %}"
-                           href="{% url 'client_create' %}">Create Client</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'client_details' %}active{% endif %}"
-                           href="{% url 'client_details' %}">Details Client</a>
-                    </li>
-                    {% endif %}    
-                
-                    {% if not request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'register_user' %}active{% endif %}"
-                           href="{% url 'register_user' %}">Register</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'login_user' %}active{% endif %}"
-                           href="{% url 'login_user' %}">Log In</a>
-                    </li>
-                        
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.view_name == 'logout_user' %}active{% endif %}"
-                           href="{% url 'logout_user' %}">Log Out</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">{{ request.user }}</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'index' %}active{% endif %}"
+                               aria-current="page"
+                               href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'profile_user' %}active{% endif %}"
+                               href="{% url 'profile_user' %}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'projects_list' %}active{% endif %}"
+                               href="{% url 'projects_list' %}">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'client_create' %}active{% endif %}"
+                               href="{% url 'client_create' %}">Create Client</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'client_details' %}active{% endif %}"
+                               href="{% url 'client_details' %}">Details Client</a>
+                        </li>
                     {% endif %}
-                
+
+                    {% if not request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'register_user' %}active{% endif %}"
+                               href="{% url 'register_user' %}">Register</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'login_user' %}active{% endif %}"
+                               href="{% url 'login_user' %}">Log In</a>
+                        </li>
+
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'logout_user' %}active{% endif %}"
+                               href="{% url 'logout_user' %}">Log Out</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link disabled" aria-disabled="true">{{ request.user }}</a>
+                        </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>

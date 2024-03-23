@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+</head>
+<body>
+    <h1>403 ACCESS FORBIDDEN</h1>
+
+    You do not have permissions to do that!
+    <a href="{% url 'index' %}">
+    <input type="button" value="Go Back" onclick="msg()">
+    </a>
+
+<script>
+function msg() {
+  alert("You will be redirected to Home");
+}
+</script>
+
+</body>
+</html>
