@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>OPMarch - Profile User Page</title>
+    OPMarch - Profile User Page
 {% endblock %}
 
 {% block content %}
@@ -35,7 +35,7 @@
         <li>Speciality: {{ user.profile.get_speciality_display }}</li>
         <li>Role: {{ user.profile.get_role_display }}</li>
         <li>Last login: {{ user.last_login }}</li>
-        <li>Company: {{ user.company }}</li>
+        <li>Company: {{ user.client }}</li>
     </ul>
 
     <a href="{% url 'index' %}">

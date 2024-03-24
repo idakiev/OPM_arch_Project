@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
-    <meta charset="UTF-8">
-    {% block title %}
-    <title>OPMarch - HOME</title>
-    {% endblock %}
+{% block title %}
+    OPM /arch - HOME
+{% endblock %}
 
 
 {% block content %}
@@ -21,8 +20,8 @@
 
 {% else %}
     <h3>
-        If you have an account: <a href="{% url 'login_user' %}"><button>Log In</button></a>
-        or <a href="{% url 'register_user' %}"><button>Register</button></a>
+        If you have an account <a href="{% url 'login_user' %}"><button class="btn btn-primary">Log In</button></a>
+        or <a href="{% url 'register_user' %}"><button class="btn btn-dark">Register</button></a>
     </h3>
 
 {% endif %}

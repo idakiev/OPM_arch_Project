@@ -18,7 +18,9 @@ class EmployeesInline(admin.StackedInline):
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     model = Client
-    list_display = ('name', 'city', 'street_name', 'street_number', 'is_active')
+    list_display = ('name', 'city', 'street_name', 'street_number', 'is_active', 'is_main', 'number_of_employees')
+    list_filter = ['is_active', 'is_main', 'name', 'city',]
+    sortable_by = ['name', 'city', 'is_main', 'is_active',]
     fields = (
         'name', 'country', 'city', 'street_name', 'street_number',
         'telephone_number', 'website', 'is_active', 'is_main',
@@ -27,6 +29,11 @@ class ClientAdmin(admin.ModelAdmin):
         EmployeesInline
     ]
     verbose_name_plural = 'Clients'
+
+    @admin.display(description='Employees')
+    def number_of_employees(self, request):
+        num_employees = UserModel.objects.filter(client=request.pk).count()
+        return num_employees
 
 
 class CitiesInLine(admin.StackedInline):
@@ -37,9 +44,15 @@ class CitiesInLine(admin.StackedInline):
 @admin.register(Municipality)
 class MunicipalityAdmin(admin.ModelAdmin):
     model = Municipality
+    list_display = ('name', 'province', 'region', 'cities_count')
+    list_filter = ['province', 'region',]
     inlines = [
         CitiesInLine
     ]
+
+    def cities_count(self, request):
+        count = City.objects.filter(municipality__name=request.name).count()
+        return count
 
 
 @admin.register(City)

@@ -13,12 +13,18 @@ class Municipality(models.Model):
 
     name = models.CharField(
         max_length=MUNICIPALITY_NAME_MAX_LENGTH,
+        blank=False,
+        null=False,
     )
     province = models.CharField(
         max_length=PROVINCE_NAME_MAX_LENGTH,
+        blank=False,
+        null=False,
     )
     region = models.CharField(
         max_length=REGION_NAME_MAX_LENGTH,
+        blank=False,
+        null=False,
     )
     postal_code = models.PositiveIntegerField()
     telephone_number = models.CharField(
@@ -26,9 +32,14 @@ class Municipality(models.Model):
         validators=(
             validators.MinLengthValidator(TEL_NUMBER_MIN_LENGTH),
             check_only_digits,
-        )
+        ),
+        blank=False,
+        null=False,
     )
-    website = models.URLField()
+    website = models.URLField(
+        blank=False,
+        null=False,
+    )
 
     class Meta:
         verbose_name_plural = 'Municipalities'
@@ -44,17 +55,23 @@ class City(models.Model):
 
     name = models.CharField(
         max_length=CITY_NAME_MAX_LENGTH,
+        blank=False,
+        null=False,
     )
     telephone_code = models.CharField(
         max_length=TEL_CODE_MAX_LENGTH,
         validators=(
             validators.MinLengthValidator(TEL_CODE_MIN_LENGTH),
             check_only_digits,
-        )
+        ),
+        blank=False,
+        null=False,
     )
     municipality = models.ForeignKey(
         to=Municipality,
         on_delete=models.CASCADE,
+        blank=False,
+        null=False,
     )
 
     class Meta:

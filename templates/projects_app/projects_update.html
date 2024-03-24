@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Project Update Page
+{% endblock %}
+
+{% block content %}
+
+{#    <div class="container">#}
+{#        <h2 style="background-color: lightgrey"#}
+{#            class="row justify-content-center col-sm-4">{{ object.base_project.name }}</h2>#}
+{#    </div>#}
+
+    <div class="container">
+        <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
+            class="row justify-content-center col-sm-4">{{ object.base_project.name }}</h2>
+    </div>
+
+    <div class="container">
+        <i><a style="text-decoration: none; color: black" href="{% url 'client_details' %}" 
+              class="row justify-content-center col-sm-4">by {{ object.base_project.client }}</a></i>
+        <br>
+    </div>
+
+    <form class="post-form" method="post" action="{% url 'projects_update' pk=object.pk %}">
+    
+        <div class="container">
+            <div class="row justify-content-left">
+                <div class="col-sm-4">
+
+                    <h6>Assigned employees</h6>   
+                    {% csrf_token %}
+
+                    {% crispy form %}
+
+                    <button class="btn btn-secondary">Update</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}

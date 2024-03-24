@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Project Details Page
+{% endblock %}
+
+{% block content %}
+    <h1>Project Details:</h1>
+    {{ object.name }}<br>
+    {{ object.client }}<br>
+    {{ object.project_manager }}<br>
+    {{ object.project_phase }}<br>
+    {{ object.project_type }}<br>
+    {{ object.project.progress }}<br>
+    {{ object.project.start_date }}<br>
+    {{ object.project.end_date }}<br>
+    <br>
+    <h2>Employees:</h2>
+    <ul>
+    {% for employee in object.project.employees.all %}
+            <li>
+                {{ employee.email }}   
+            </li>
+    {% endfor %}
+    </ul>
+    
+{% endblock %}

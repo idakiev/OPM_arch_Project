@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load my_tags %}
 {% block title %}
-    <title>Projects Details Page</title>
+    Projects Details Page
 {% endblock %}
 
 {% block content %}
@@ -9,9 +9,9 @@
 <body>
 
 
-    <h2>Custom tag:</h2>
+    <h2>All projects of <i><strong>{{ request.user.client }}</strong></i>:</h2>
     
-    {% show_projects %}
+    {% show_projects projects=project_list %}
 
     <h3>Create project:</h3>
     <a href="{% url 'projects_create' %}"><button class="btn btn-primary">Add new project</button></a>

@@ -1,5 +1,6 @@
 
-from django.contrib.auth import mixins as auth_mixins, get_user_model, login
+from django.contrib.auth import mixins as auth_mixins, get_user_model, login, update_session_auth_hash
+from django.contrib import messages
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -8,7 +9,8 @@ from django.contrib.auth import forms as auth_forms
 
 from django.shortcuts import render, redirect
 
-from OPM_arch_Project.accounts_app.forms import CreateUserForm, EditProfileForm, CheckAuthForm
+from OPM_arch_Project.accounts_app.forms import CreateUserForm, EditProfileForm, CheckAuthForm, LoginUserForm, \
+    ChangePasswordUserForm
 from OPM_arch_Project.accounts_app.models import Profile
 
 UserModel = get_user_model()
@@ -17,10 +19,17 @@ UserModel = get_user_model()
 class LoginUserView(auth_views.LoginView):
     template_name = 'accounts_app/login_user.html'
     redirect_authenticated_user = True
+    form_class = LoginUserForm
 
 
 class LogOutUserView(auth_views.LogoutView):
     template_name = 'accounts_app/logout_user.html'
+
+
+class ChangePasswordUserView(auth_views.PasswordChangeView):
+    template_name = 'accounts_app/user_change_password.html'
+    form_class = ChangePasswordUserForm
+    success_url = reverse_lazy('profile_user')
 
 
 # TODO: Check how to fix the auth process if email is existing in the db.

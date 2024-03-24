@@ -6,6 +6,6 @@ register = template.Library()
 
 
 @register.inclusion_tag('projects_app/projects.html')
-def show_projects():
-    projects = Project.objects.all()
+def show_projects(projects):
+
     return {'projects': projects}

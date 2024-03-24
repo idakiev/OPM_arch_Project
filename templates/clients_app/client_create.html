@@ -1,22 +1,44 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
-    <title>Client Create Page</title>
+    Client Create Page
 {% endblock %}
 
 {% block content %}
-    
+
     {% if request.user.is_staff %}
-    <form method="post" action="">
 
-        {% csrf_token %}
-        {{ form.as_p }}
 
-        <button>Create Client</button>
-    </form>
-    
+        <div class="container">
+            <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
+                class="row justify-content-center col-sm-4">Create New Client</h2>
+        </div>
+
+        <br>
+
+        <form class="post-form" method="post" action="{% url 'client_create' %}">
+
+            <div class="container">
+                <div class="row justify-content-left">
+                    <div class="col-sm-4">
+
+                        {% csrf_token %}
+
+                        {% crispy form %}
+
+                        <button class="btn btn-secondary">Create</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+
+
+
     {% else %}
-    You do not have permissions for that!
+        You do not have permissions for that!
     {% endif %}
-    
+
 {% endblock %}

@@ -1,10 +1,48 @@
 {% extends 'base.html' %}
 
-{% block title %}Profile Details Page{% endblock %}
+{% block title %}
+    Profile Details Page
+{% endblock %}
 
 {% block content %}
     
-    {{ object.email }}
-    {{ object.projects }}
+    {% if not request.user.client.is_main and request.user.pk != object.pk %}
+
+        
+    {% else %}
     
+        {{ object.profile }}<br>
+        {{ object.profile.get_speciality_display }}<br>
+        {{ object.profile.get_role_display }}<br>
+    
+    {% endif %}
+    
+    <h3>Projects as Project manager:</h3>
+    
+    <ul>
+    {% for base_project in object.baseproject_set.all %}
+        {% if request.user.client == base_project.client or request.user.client.is_main %}
+            <li>
+                {{ base_project }} -> {{ base_project.project.get_status_display }} -> {{ base_project.project.get_progress_display }}
+            </li>
+        {% endif %}
+        
+    {% endfor %}
+    </ul>
+    
+        <h3>Projects as Employee:</h3>
+    
+    <ul>
+    {% for project in object.project_set.all %}
+        {% if request.user.client == project.base_project.client or request.user.client.is_main %}
+            <li>
+                {{ project.base_project }} -> {{ project.get_status_display }} -> {{ project.get_progress_display }}
+            </li>
+        {% endif %}
+
+    {% endfor %}
+    </ul>
+    
+    <a href="{% url 'projects_list' %}"><input class="btn btn-dark" type="button" value="Projects"></a>
+
 {% endblock %}

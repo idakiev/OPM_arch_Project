@@ -19,7 +19,7 @@ class ClientCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = ClientCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('detail_client')
 
 
 class ClientUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):

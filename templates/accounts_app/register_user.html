@@ -1,21 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register User Page</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <form method="post" action="{% url 'register_user' %}">
-        
-        {% csrf_token %}
-        
-        {{ form.as_p }}
-        
-        <button>Register</button>
-        or <a href="{% url 'login_user' %}">Log IN</a>
-        
+{% block title %}
+    Register User Page
+{% endblock %}
+
+{% block content %}
+
+    <form class="post-form" method="post" action="{% url 'register_user' %}">
+        <hr class="mt-0 mb-4">
+        <div class="container">
+            <div class="row justify-content-left">
+                <div class="col-sm-4">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button class="btn btn-primary">Register</button>
+                    or <a href="{% url 'login_user' %}">Log IN</a>
+                </div>
+            </div>
+        </div>
     </form>
 
-</body>
-</html>
+
+{% endblock %}

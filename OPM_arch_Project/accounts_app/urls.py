@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from OPM_arch_Project.accounts_app.views import LoginUserView, ProfileUserView, RegisterUserView, LogOutUserView, \
-    ProfileEditUserView, check_auth_user, ProfileDetailsUserView
+    ProfileEditUserView, check_auth_user, ProfileDetailsUserView, ChangePasswordUserView
 
 urlpatterns = [
     path('auth/', check_auth_user, name='auth'),
@@ -16,4 +16,7 @@ urlpatterns = [
         ])),
     ]),
          ),
+    path('user/', include([
+        path("password/", ChangePasswordUserView.as_view(), name="user_change_password"),
+    ])),
 ]

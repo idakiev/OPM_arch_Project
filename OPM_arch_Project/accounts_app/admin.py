@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
+
 from OPM_arch_Project.accounts_app.forms import CreateUserForm, EditProfileForm, EditUserForm
 from OPM_arch_Project.accounts_app.models import Profile
 
