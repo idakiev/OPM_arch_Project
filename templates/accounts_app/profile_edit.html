@@ -11,12 +11,14 @@
         <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
             class="row justify-content-center col-sm-4">{{ object.user.email }}</h2>
     </div>
-
-    <div class="container">
-        <i><a style="text-decoration: none; color: black" href="{% url 'client_details' %}"
-              class="row justify-content-center col-sm-4">part of {{ object.user.client }}</a></i>
-        <br>
-    </div>
+    
+    {% if object.user.client %}
+        <div class="container">
+            <i><a style="text-decoration: none; color: black" href="{% url 'clients_details' pk=object.user.client.pk%}"
+                  class="row justify-content-center col-sm-4">part of {{ object.user.client }}</a></i>
+            <br>
+        </div>
+    {% endif %}
 
     <form class="post-form" method="post" action="{% url 'profile_edit' pk=object.pk %}" enctype="multipart/form-data">
 

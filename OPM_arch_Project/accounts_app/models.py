@@ -15,12 +15,18 @@ class AppUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
         blank=False,
         null=False,
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
     client = models.ForeignKey(
         to=Client,
         on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True,
+    )
+
+    verification_code = models.BooleanField(
+        default=False,
         blank=True,
         null=True,
     )
@@ -100,3 +106,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.first_name} {self.last_name}"
+
+    def get_name(self):
+        if self.first_name is not None and self.last_name is not None:
+            return f"{self.first_name} {self.last_name}"
+        elif self.first_name is not None:
+            return f"{self.first_name}"
+        elif self.last_name is not None:
+            return f"{self.last_name}"
+
+        return

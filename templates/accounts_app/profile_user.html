@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     OPMarch - Profile User Page
@@ -6,40 +7,68 @@
 
 {% block content %}
 
-    <h1>This is the profile page of -- {{ request.user.email }} --</h1>
-
-    <form method="post" action="{% url 'logout_user' %}">
-        {% csrf_token %}
-        <button>Log out</button>
-
-    </form>
-
     <a href="{% url 'profile_edit' pk=user.pk %}">
         <button>Edit Profile</button>
     </a>
 
-    <ul>
-        <li>First Name: {{ user.profile.first_name|default:"Unknown" }}</li>
-        <li>Last Name: {{ user.profile.last_name|default:"Unknown" }}</li>
-        <li>Email address: {{ user.email|urlize }}</li>
+    <div class="container card-group">
 
-        <li>Telephone: {{ user.profile.phone_number }}</li>
-        {% if user.profile.profile_picture %}
-            <li>Profile Picture: <img src="{{ user.profile.profile_picture.url }}" alt="profile_picture" height="150">
-        {% endif %}
-        </li>
+        <div class="card border-secondary mb-3" style="max-width: 25rem;">
+            <div class="card-header">PROFILE PICTURE</div>
+            <div class="card-body text-secondary">
 
-        <br>
+                {% if user.profile.profile_picture %}
+                    <p>
+                        <img class="img-fluid img-thumbnail" style="width:100%;height:100%;max-block-size: 400px" src="{{ user.profile.profile_picture.url }}"
+                             alt="profile-picture">
+                    </p>
+                {% else %}
+                    <p>
+                        <img class="img-fluid img-thumbnail" style="width:100%;height:100%;" src="{% static 'images/person9.svg' %}"
+                             alt="profile-icon">
+                    </p>
 
-        <li>Authorized: {{ user.is_staff }}</li>
-        <li>Speciality: {{ user.profile.get_speciality_display }}</li>
-        <li>Role: {{ user.profile.get_role_display }}</li>
-        <li>Last login: {{ user.last_login }}</li>
-        <li>Company: {{ user.client }}</li>
-    </ul>
+                {% endif %}
+            </div>
+        </div>
 
-    <a href="{% url 'index' %}">
-        <button>Return to HOME</button>
-    </a>
+        <div class="card border-secondary mb-3" style="max-width: 25rem;">
+            <div class="card-header">PERSONAL INFORMATION</div>
+            <div class="card-body text-secondary">
+                <h5 class="card-title">First Name</h5>
+                <p class="card-text">{{ user.profile.first_name|default:"Unknown" }}</p>
+                <h5 class="card-title">Last Name</h5>
+                <p class="card-text">{{ user.profile.last_name|default:"Unknown" }}</p>
+                <h5 class="card-title">Email address</h5>
+                <p class="card-text">{{ user.email|default:"Unknown" }}</p>
+                <h5 class="card-title">Telephone number</h5>
+                <p class="card-text">{{ user.profile.phone_number|default:"Unknown" }}</p>
+                <h5 class="card-title">Date of birth</h5>
+                <p class="card-text">{{ user.profile.date_of_birth|default:"Unknown" }}</p>
+            </div>
+        </div>
+
+        <div class="card border-secondary mb-3" style="max-width: 25rem;">
+            <div class="card-header">PROFILE INFORMATION</div>
+            <div class="card-body text-secondary">
+                <h5 class="card-title">Speciality</h5>
+                <p class="card-text">{{ user.profile.get_speciality_display|default:"Unknown" }}</p>
+                <h5 class="card-title">Role</h5>
+                <p class="card-text">{{ user.profile.get_role_display|default:"Unknown" }}</p>
+                <h5 class="card-title">Company</h5>
+                <p class="card-text">{{ user.client|default:"Unknown" }}</p>
+                <h5 class="card-title">Account type</h5>
+                {% if user.is_superuser %}
+                    <p class="card-text">Administrator</p>
+                {% elif user.groups.all %}
+                    <p class="card-text">Moderator</p>
+                {% else %}
+                    <p class="card-text">Viewer</p>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
 
 {% endblock %}

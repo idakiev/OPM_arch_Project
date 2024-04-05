@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
 
 {% block title %}
     Register User Page
@@ -7,13 +9,15 @@
 {% block content %}
 
     <form class="post-form" method="post" action="{% url 'register_user' %}">
-        <hr class="mt-0 mb-4">
         <div class="container">
+            <img class="mb-4" src="{% static 'images/icons8-arch-64.png' %}" alt="logo.png" width="64" height="64">
+            <h1 class="h3 mb-3 fw-normal">Please fill out the information below</h1>
+
             <div class="row justify-content-left">
                 <div class="col-sm-4">
                     {% csrf_token %}
 
-                    {{ form.as_p }}
+                    {{ form|crispy }}
 
                     <button class="btn btn-primary">Register</button>
                     or <a href="{% url 'login_user' %}">Log IN</a>

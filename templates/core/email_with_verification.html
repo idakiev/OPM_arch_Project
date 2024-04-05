@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to OPM /arch</title>
+</head>
+<body>
+
+<h2>Hello {{ user_email }},</h2>
+
+
+<p>Your account was successfully activated!</p>
+<p>Please <a href="{% url 'login_user' %}">Log In</a> now and change your password.</p>
+
+<h3>Your temporary password is:</h3>
+<h4 style="color: lightslategrey">{{ verification_code }}</h4>
+
+</body>
+</html>

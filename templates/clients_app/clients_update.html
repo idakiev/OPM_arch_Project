@@ -2,22 +2,26 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Client Create Page
+    Client Update Page
 {% endblock %}
 
 {% block content %}
 
-    {% if request.user.is_staff %}
 
+    {% if request.user.is_staff %}
 
         <div class="container">
             <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
-                class="row justify-content-center col-sm-4">Create New Client</h2>
+                class="row justify-content-center col-sm-4">{{ object.name }}</h2>
         </div>
 
-        <br>
+        <div class="container">
+            <i><a style="text-decoration: none; color: black" href="{{ object.website }}"
+                  class="row justify-content-center col-sm-4">{{ object.website }}</a></i>
+            <br>
+        </div>
 
-        <form class="post-form" method="post" action="{% url 'client_create' %}">
+        <form class="post-form" method="post" action="">
 
             <div class="container">
                 <div class="row justify-content-left">
@@ -27,15 +31,12 @@
 
                         {% crispy form %}
 
-                        <button class="btn btn-secondary">Create</button>
+                        <button class="btn btn-secondary">Update</button>
                     </div>
                 </div>
             </div>
 
         </form>
-
-
-
 
     {% else %}
         You do not have permissions for that!

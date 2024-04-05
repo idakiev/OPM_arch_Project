@@ -7,15 +7,17 @@
 {% block content %}
 
 <body>
-
-
-    <h2>All projects of <i><strong>{{ request.user.client }}</strong></i>:</h2>
     
-    {% show_projects projects=project_list %}
-
-    <h3>Create project:</h3>
-    <a href="{% url 'projects_create' %}"><button class="btn btn-primary">Add new project</button></a>
-
+    {% if request.user.client %}
+        <div class="container-fluid">
+        <h2 style="padding: 15px">All projects of <i><strong>{{ request.user.client }}</strong></i>:</h2>
+        
+        {% show_projects projects=project_list %}
+        
+    {% endif %}
+    
+    <a href="{% url 'projects_create' %}" style="padding: 15px"><button class="btn btn-primary">Add new project</button></a>
+    </div>
 
 </body>
 

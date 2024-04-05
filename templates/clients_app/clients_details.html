@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Client Details Page
+{% endblock %}
+
+{% block content %}
+
+    {{ object.name }}
+    {{ object.city }}
+    {{ object.website }}
+    
+    <ul>
+    {% for project in object.baseproject_set.all %}
+        <li>
+            {{ project.name }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

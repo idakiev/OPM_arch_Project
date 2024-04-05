@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
 
 {% block title %}
     Login User Page
@@ -6,25 +8,23 @@
 
 {% block content %}
 
-    <body>
-
     <form class="post-form" method="post" action="{% url 'login_user' %}?next={{ next }}">
-        <hr class="mt-0 mb-4">
         <div class="container">
+            <img class="mb-4" src="{% static 'images/icons8-arch-64.png' %}" alt="logo.png" width="64" height="64">
+            <h1 class="h3 mb-3 fw-normal"><strong>Log</strong> In</h1>
+
             <div class="row justify-content-left">
                 <div class="col-sm-4">
 
                     {% csrf_token %}
 
-                    {{ form.as_p }}
+                    {{ form|crispy }}
 
-                    <button class="btn btn-primary">Log IN</button>
-                    or <a href="{% url 'register_user' %}">Register</a>
+                    <button class="btn btn-primary">Log In</button>
+                    or <a href="{% url 'auth' %}">Sign Up</a>
                 </div>
             </div>
         </div>
     </form>
-
-    </body>
 
 {% endblock %}

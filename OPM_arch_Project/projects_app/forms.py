@@ -1,6 +1,6 @@
 from django import forms
 
-from OPM_arch_Project.projects_app.models import BaseProject, Project
+from OPM_arch_Project.projects_app.models import BaseProject, Project, ProjectComment
 
 
 class ProjectsCreateForm(forms.ModelForm):
@@ -15,6 +15,14 @@ class ProjectsCreateForm(forms.ModelForm):
     class Meta:
         model = BaseProject
         fields = '__all__'
+
+
+class BaseProjectUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = BaseProject
+        fields = '__all__'
+        exclude = ['client']
 
 
 class ProjectsUpdateForm(forms.ModelForm):
@@ -37,4 +45,17 @@ class ProjectsUpdateForm(forms.ModelForm):
         }
         labels = {
             'employees': ''
+        }
+
+
+class ProjectsCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = ProjectComment
+        fields = ['text']
+        labels = {
+            'text': 'Message'
+        }
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 3, 'cols': 12})
         }

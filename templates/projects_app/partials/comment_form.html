@@ -1,0 +1,14 @@
+{% load crispy_forms_filters %}
+<div class="container m-1 table-responsive">
+
+    <div class="card-body text-dark">
+        <form class="form-control" method="post">
+
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+
+            <button class="btn btn-primary">Send</button>
+        </form>
+    </div>
+
+</div>

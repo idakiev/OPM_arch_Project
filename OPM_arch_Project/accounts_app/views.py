@@ -1,7 +1,5 @@
 
-from django.contrib.auth import mixins as auth_mixins, get_user_model, login, update_session_auth_hash
-from django.contrib import messages
-from django.http import HttpResponse
+from django.contrib.auth import mixins as auth_mixins, get_user_model
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import views as auth_views
@@ -9,7 +7,7 @@ from django.contrib.auth import forms as auth_forms
 
 from django.shortcuts import render, redirect
 
-from OPM_arch_Project.accounts_app.forms import CreateUserForm, EditProfileForm, CheckAuthForm, LoginUserForm, \
+from OPM_arch_Project.accounts_app.forms import EditProfileForm, CheckAuthForm, LoginUserForm, \
     ChangePasswordUserForm
 from OPM_arch_Project.accounts_app.models import Profile
 
@@ -21,30 +19,40 @@ class LoginUserView(auth_views.LoginView):
     redirect_authenticated_user = True
     form_class = LoginUserForm
 
+    def form_valid(self, form):
+        result = super().form_valid(form)
+
+        if form.redirect_to_password:
+            return redirect('user_change_password')
+
+        return result
+
+    #
+    # def form_valid(self, form):
+    #     email = form.cleaned_data['email']
+    #
+    #     return redirect('change_password', email=email)
+
 
 class LogOutUserView(auth_views.LogoutView):
     template_name = 'accounts_app/logout_user.html'
 
 
 class ChangePasswordUserView(auth_views.PasswordChangeView):
-    template_name = 'accounts_app/user_change_password.html'
+    template_name = 'accounts_app/change_password_user.html'
     form_class = ChangePasswordUserForm
     success_url = reverse_lazy('profile_user')
 
 
-# TODO: Check how to fix the auth process if email is existing in the db.
 def check_auth_user(request):
-    users_emails = UserModel.objects.values_list('email')
     form = CheckAuthForm()
-
     user = request.user
 
     if request.method == 'POST':
         form = CheckAuthForm(request.POST)
-        for mail in users_emails:
-            if form.data['email'] in mail:
-                user = UserModel.objects.get(email=form.data['email'])
-                return redirect('login_user')
+
+        if form.is_valid():
+            return check_auth_success(request)
 
     context = {
         'form': form,
@@ -53,24 +61,8 @@ def check_auth_user(request):
     return render(request, 'accounts_app/check_auth.html', context=context)
 
 
-class RegisterUserView(views.CreateView):
-    form_class = CreateUserForm
-    template_name = 'accounts_app/register_user.html'
-    success_url = reverse_lazy('profile_user')
-
-    def get(self, request, *args, **kwargs):
-        result = super().get(request, *args, **kwargs)
-
-        if self.request.user.is_authenticated:
-            return redirect('profile_user')
-
-        return result
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-
-        login(self.request, self.object)
-        return result
+def check_auth_success(request):
+    return render(request, 'accounts_app/check_auth_success.html')
 
 
 class ProfileUserView(auth_mixins.LoginRequiredMixin, views.ListView):

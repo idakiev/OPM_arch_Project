@@ -1,27 +1,172 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
 
 {% block title %}
     Project Details Page
 {% endblock %}
 
 {% block content %}
-    <h1>Project Details:</h1>
-    {{ object.name }}<br>
-    {{ object.client }}<br>
-    {{ object.project_manager }}<br>
-    {{ object.project_phase }}<br>
-    {{ object.project_type }}<br>
-    {{ object.project.progress }}<br>
-    {{ object.project.start_date }}<br>
-    {{ object.project.end_date }}<br>
-    <br>
-    <h2>Employees:</h2>
-    <ul>
-    {% for employee in object.project.employees.all %}
-            <li>
-                {{ employee.email }}   
-            </li>
-    {% endfor %}
-    </ul>
-    
+
+    <div class="container m-1 table-responsive" style="padding: 15px">
+        <div class="card border-secondary mb-3">
+            <div class="card-body text-dark">
+                <h5 class="card-title" style="text-align: center">{{ object.name }}</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="container m-1 table-responsive">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-header">GENERAL INFORMATION</div>
+                    <div class="card-body">
+
+                        <h5 class="card-title">Client</h5>
+                        <p class="card-text">
+                            <a href="{% url 'clients_details' pk=object.client.pk %}"
+                               style="text-decoration: none;color: black;">
+                                {{ object.client }}
+                            </a>
+                        </p>
+
+                        <h5 class="card-title">Municipality</h5>
+                        <p class="card-text text-secondary">{{ object.municipality }}</p>
+
+                        <h5 class="card-title">City</h5>
+                        <p class="card-text text-secondary">{{ object.city }}</p>
+
+                        <h5 class="card-title">Project type</h5>
+                        <p class="card-text text-secondary">{{ object.get_project_type_display }}</p>
+
+                        <h5 class="card-title">Project phase</h5>
+                        <p class="card-text text-secondary">{{ object.get_project_phase_display }}</p>
+
+                        <h5 class="card-title">Project manager</h5>
+                        <p class="card-text text-secondary">
+                            <a href="{% url 'profile_details' pk=object.project_manager.pk %}"
+                               style="text-decoration: none;color: black;">
+                                {{ object.project_manager }}
+                            </a>
+                        </p>
+
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{% url 'projects_base_update' pk=object.pk %}">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </a>
+                            </div>
+                            <small class="text-body-secondary">{{ object.modified_at|timesince }} ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-header">PROJECT INFORMATION</div>
+                    <div class="card-body">
+
+                        <h5 class="card-title">Start - End date</h5>
+                        <p class="card-text text-secondary">{{ object.project.start_date|default:"Unknown" }}
+                            - {{ object.project.end_date|default:"Unknown" }}</p>
+                        <p class="card-text text-secondary">{{ object.project.get_project_timeframe|default:"0" }}
+                            days</p>
+
+                        <h5 class="card-title">Status</h5>
+                        <p class="card-text text-secondary">{{ object.project.get_status_display }}</p>
+
+                        <h5 class="card-title">Progress</h5>
+                        <p class="card-text text-secondary">{{ object.project.get_progress_display }}</p>
+
+                        <h5 class="card-title">Employees</h5>
+                        <p class="card-text text-secondary">
+                            {% if object.project.employees.all %}
+                                {% for employee in object.project.employees.all %}
+                                    <li class="list-group-item text-secondary">
+                                        <a href="{% url 'profile_details' pk=employee.pk %}"
+                                           style="text-decoration: none;color: black;">
+                                            {% if employee.profile.get_name %}
+                                                {{ employee.profile.get_name }}
+                                            {% else %}
+                                                {{ employee.email }}
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                None
+                            {% endif %}
+                        </p>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{% url 'projects_update' pk=object.project.pk %}">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                </a>
+                            </div>
+                            <small class="text-body-secondary">{{ object.project.modified_at|timesince }} ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-header">PROJECT RESOURCES</div>
+                    <div class="card-body">
+
+                        <h5 class="card-title">Client</h5>
+                        <p class="card-text">{{ object.client }}</p>
+
+                        <h5 class="card-title">Municipality</h5>
+                        <p class="card-text">{{ object.municipality }}</p>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-body-secondary">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container m-1 table-responsive">
+        <div class="list-group">
+
+            {% for comment in comments %}
+
+                <a href="#" class="list-group-item list-group-item-action
+                    {% if comment.user.client.is_main %} bg-light border-primary-subtle {% endif %}">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 {% if comment.user.client.is_main %} text-primary {% endif %}">{{ comment.text }}</h5>
+                        <small class="text-body-secondary">{{ comment.created_at }}</small>
+                    </div>
+                    <br>
+                    <p class="mb-1">{{ comment.user }}</p>
+                    <small class="text-body-secondary">{{ comment.user.client }}</small>
+                </a>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {% if request.user in object.project.employees.all or request.user.is_staff or request.user.client == object.client %}
+            
+        {% if request.user.client == object.client and request.user.client.is_main and not request.user.is_staff %}
+        {% else %}
+            {% include 'projects_app/partials/comment_form.html' %}
+        {% endif %}
+    {% endif %}
+
 {% endblock %}

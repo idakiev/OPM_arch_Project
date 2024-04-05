@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
+from django.utils.translation import gettext_lazy as _
 
 
 from OPM_arch_Project.accounts_app.forms import CreateUserForm, EditProfileForm, EditUserForm
@@ -11,33 +12,31 @@ UserModel = get_user_model()
 
 
 @admin.register(Profile)
-class AdminAppProfile(admin.ModelAdmin):
+class AppProfileAdmin(admin.ModelAdmin):
     model = Profile
     form = EditProfileForm
 
 
 @admin.register(UserModel)
-class AdminAppUser(UserAdmin):
+class AppUserAdmin(UserAdmin):
     model = UserModel
     add_form = CreateUserForm
     form = EditUserForm
 
-    list_display = ('pk', 'email', 'is_staff', 'is_active', "is_superuser")
+    list_display = ('pk', 'email', 'is_staff', 'is_active', "is_superuser",)
     search_fields = ('email',)
     ordering = ('pk',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('client',)}),
-        ('Permissions', {'fields': ('is_active', 'is_staff',  "is_superuser", 'groups',
-                                    'user_permissions')}),
-        ('Important dates', {'fields': ('last_login',)}),
+        (_('Personal info'), {'fields': ('client',)}),
+        (_('Permissions'),{'fields': ('is_active', 'is_staff',  "is_superuser", 'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login',)}),
     )
     add_fieldsets = (
-        (
-            None,
-            {
+       ("User creation", {
+                'description': 'New user will be created with default password.',
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2", "client",),
+                "fields": ("email", "client",),
             },
         ),
     )
@@ -45,4 +44,4 @@ class AdminAppUser(UserAdmin):
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
-        return super(AdminAppUser, self).get_inline_instances(request, obj)
+        return super(AppUserAdmin, self).get_inline_instances(request, obj)

@@ -6,16 +6,19 @@
 </head>
 <body>
     <h1>403 ACCESS FORBIDDEN</h1>
+    
+    <p>You do not have permissions to do that!</p>
 
-    You do not have permissions to do that!
+    <input type="button" value="Go Back" onclick="history.back()">
+    
     <a href="{% url 'index' %}">
-    <input type="button" value="Go Back" onclick="msg()">
+        <input type="button" value="Return to Home" onclick="msg()">
     </a>
 
 <script>
-function msg() {
-  alert("You will be redirected to Home");
-}
+    function msg() {
+        alert("You will be redirected to Home");
+    }
 </script>
 
 </body>

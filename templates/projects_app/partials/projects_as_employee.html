@@ -1,3 +1,4 @@
+{% load static %}
 <style>
     .profile {
         display: inline-block;
@@ -14,25 +15,26 @@
     <table class="table table-striped table-fit table-bordered table-hover">
         <thead>
         <tr>
-            <th scope="col"></th>
-            <th scope="col">Client</th>
-            <th scope="col">Name</th>
-            <th scope="col">Municipality</th>
-            <th scope="col">City</th>
-            <th scope="col">Type</th>
-            <th scope="col">Phase</th>
-            <th scope="col">Project Manager</th>
-            <th scope="col">Employees</th>
+            <th scope="col" class="w-10"></th>
+            <th scope="col" class="w-10">Client</th>
+            <th scope="col" class="w-20">Name</th>
+            <th scope="col" class="w-10">Municipality</th>
+            <th scope="col" class="w-10">City</th>
+            <th scope="col" class="w-10">Type</th>
+            <th scope="col" class="w-10">Phase</th>
+            <th scope="col" class="w-10">Project Manager</th>
+            <th scope="col" class="w-10">Employees</th>
         </tr>
 
         </thead>
         <tbody>
 
         {% for project in projects %}
+            {% if request.user.client == project.base_project.client or request.user.client.is_main %}
 
             <tr>
                 <th scope="row"><a href="{% url 'projects_details' pk=project.pk %}">
-                    <button class="btn btn-dark">Details</button>
+                    <button class="btn btn-dark" title="More information">Details</button>
                 </a></th>
                 <th scope="row">{{ project.base_project.client }}</th>
                 <th scope="row">{{ project.base_project.name }}</th>
@@ -47,24 +49,29 @@
                 <th scope="row">{{ project.base_project.project_manager }}</th>
                 <th scope="colgroup">
                     {% for employee in project.employees.all %}
-
+                    
                         {% if employee.profile.profile_picture %}
-                            <a href="{% url 'profile_details' pk=employee.profile.pk %}">
+                            <a href="{% url 'profile_details' pk=employee.profile.pk %}" title="{{ employee.email }}">
                                 <img class="profile" src="{{ employee.profile.profile_picture.url }}"
                                      alt="profile_picture"></a>
-                        {% else %}
+                        {% elif employee.profile.first_name and employee.profile.last_name %}
                             <span class="profile rounded-pill" style="font-size: 15px;">
                             <a style="color: inherit;text-decoration: none"
-                               href="{% url 'profile_details' pk=employee.profile.pk %}">
+                               href="{% url 'profile_details' pk=employee.profile.pk %}" title="{{ employee.email }}">
                             {{ employee.profile.first_name|slice:1 }}{{ employee.profile.last_name|slice:1 }}
                             </a>
                             </span>
+                        {% else %}
+                            <a href="{% url 'profile_details' pk=employee.profile.pk %}" title="{{ employee.email }}">
+                                <img class="profile" src="{% static 'images/person9.svg' %}"
+                                     alt="profile_picture"></a>
+
                         {% endif %}
 
                     {% endfor %}
                 </th>
             </tr>
-
+            {% endif %}
         {% endfor %}
 
         </tbody>

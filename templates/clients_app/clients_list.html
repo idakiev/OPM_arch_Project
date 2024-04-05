@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Client List Page
+{% endblock %}
+
+{% block content %}
+
+    <h1>You are part of:</h1>
+    {{ request.user.client }}
+    {{ request.user.client.website }}
+    {{ request.user.client.city }}
+    {{ request.user.client.telephone_number }}
+
+
+
+    {% if request.user.is_staff %}
+        <h2>List of all the clients:</h2>
+        {% for client in client_list %}
+            {% if not client.is_main %}
+                <li><a href="{% url 'clients_details' pk=client.pk %}">{{ client.name }}</a></li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

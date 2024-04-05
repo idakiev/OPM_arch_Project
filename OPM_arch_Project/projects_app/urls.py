@@ -1,7 +1,7 @@
 from django.urls import include, path
 
 from OPM_arch_Project.projects_app.views import ProjectsListView, ProjectsCreateView, ProjectsDetailsView, \
-    ProjectsUpdateView
+    ProjectsUpdateView, BaseProjectsUpdateView
 
 urlpatterns = [
     path('', include([
@@ -10,6 +10,7 @@ urlpatterns = [
         path('<int:pk>/', include([
             path('details/', ProjectsDetailsView.as_view(), name='projects_details'),
             path('update/', ProjectsUpdateView.as_view(), name='projects_update'),
+            path('update/base/', BaseProjectsUpdateView.as_view(), name='projects_base_update'),
         ])),
     ]))
 ]

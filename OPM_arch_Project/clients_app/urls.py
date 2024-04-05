@@ -1,12 +1,15 @@
 from django.urls import path, include
 
-from OPM_arch_Project.clients_app.views import ClientDetailView, ClientCreateView, ClientUpdateView
+from OPM_arch_Project.clients_app.views import ClientsDetailView, ClientsCreateView, ClientsUpdateView, ClientsListView
 
 urlpatterns = [
     path('', include([
-        path('details/', ClientDetailView.as_view(), name='client_details'),
-        path('create/', ClientCreateView.as_view(), name='client_create'),
-        path('<int:pk>/update/', ClientUpdateView.as_view(), name='client_update'),
+        path('list/', ClientsListView.as_view(), name='clients_list'),
+        path('create/', ClientsCreateView.as_view(), name='clients_create'),
+        path('<int:pk>/', include([
+            path('details/', ClientsDetailView.as_view(), name='clients_details'),
+            path('update/', ClientsUpdateView.as_view(), name='clients_update'),
+        ])),
     ])),
     # path('municipality/', include([
     #     path('create/', name='municipality_create'),

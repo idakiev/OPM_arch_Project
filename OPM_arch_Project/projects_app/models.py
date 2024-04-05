@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 
 from django.contrib.auth import get_user_model
@@ -7,7 +8,8 @@ from smart_selects import db_fields as smart_fields
 
 from OPM_arch_Project.accounts_app.models import AppUser
 from OPM_arch_Project.clients_app.models import Municipality, City, Client
-from OPM_arch_Project.core.model_mixins import ChoicesEnumMixin
+from OPM_arch_Project.core.model_mixins import ChoicesEnumMixin, Timestamp
+from OPM_arch_Project.core.validators import validate_file_size
 
 UserModel = get_user_model()
 
@@ -46,7 +48,7 @@ class ProjectProgressChoices(ChoicesEnumMixin, Enum):
     COMPLETED = 'Completed'
 
 
-class BaseProject(models.Model):
+class BaseProject(Timestamp, models.Model):
     NAME_MAX_LENGTH = 150
 
     client = models.ForeignKey(
@@ -101,7 +103,7 @@ class BaseProject(models.Model):
         return f"{self.client} - {self.name}"
 
 
-class Project(models.Model):
+class Project(Timestamp, models.Model):
 
     base_project = models.OneToOneField(
         BaseProject,
@@ -137,3 +139,45 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.base_project} - {self.status}"
+
+    def get_project_timeframe(self):
+        if self.start_date and self.end_date:
+            start_date = str(self.start_date)
+            end_date = str(self.end_date)
+            timeframe = datetime.strptime(end_date, "%Y-%m-%d") - datetime.strptime(start_date, "%Y-%m-%d")
+
+            return timeframe.days
+
+
+class ProjectFile(Timestamp, models.Model):
+    file = models.FileField(
+        upload_to="media/projects_files",
+        validators=(
+            validate_file_size,
+        )
+    )
+    project = models.ForeignKey(
+        to=Project,
+        on_delete=models.RESTRICT,
+    )
+
+
+class ProjectComment(Timestamp, models.Model):
+    TEXT_MAX_LENGTH = 300
+
+    text = models.TextField(
+        max_length=TEXT_MAX_LENGTH,
+        blank=False,
+        null=False,
+    )
+    project = models.ForeignKey(
+        to=BaseProject,
+        on_delete=models.RESTRICT,
+    )
+    user = models.ForeignKey(
+        to=UserModel,
+        on_delete=models.RESTRICT,
+    )
+
+    class Meta:
+        ordering = ["created_at"]

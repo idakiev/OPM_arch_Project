@@ -1,48 +1,48 @@
 {% extends 'base.html' %}
+{% load my_tags %}
 
 {% block title %}
     Profile Details Page
 {% endblock %}
 
 {% block content %}
-    
-    {% if not request.user.client.is_main and request.user.pk != object.pk %}
 
-        
-    {% else %}
-    
-        {{ object.profile }}<br>
-        {{ object.profile.get_speciality_display }}<br>
-        {{ object.profile.get_role_display }}<br>
-    
-    {% endif %}
-    
-    <h3>Projects as Project manager:</h3>
-    
-    <ul>
-    {% for base_project in object.baseproject_set.all %}
-        {% if request.user.client == base_project.client or request.user.client.is_main %}
-            <li>
-                {{ base_project }} -> {{ base_project.project.get_status_display }} -> {{ base_project.project.get_progress_display }}
-            </li>
-        {% endif %}
-        
-    {% endfor %}
-    </ul>
-    
-        <h3>Projects as Employee:</h3>
-    
-    <ul>
-    {% for project in object.project_set.all %}
-        {% if request.user.client == project.base_project.client or request.user.client.is_main %}
-            <li>
-                {{ project.base_project }} -> {{ project.get_status_display }} -> {{ project.get_progress_display }}
-            </li>
+    <div class="container-fluid">
+
+        {% if not request.user.client.is_main and request.user.pk != object.pk %}
+
+
+        {% else %}
+
+            <div class="container m-1 table-responsive" style="padding: 15px">
+                <div class="card border-secondary mb-3">
+                    <div class="card-body text-secondary">
+                        <h5 class="card-title">{{ object.email }}</h5>
+                        {% if object.profile.get_name %}
+                            <h5 class="card-title">{{ object.profile.get_name }}</h5>
+                        {% endif %}
+                        <h5 class="card-title">{{ object.profile.get_speciality_display }}</h5>
+                        <h5 class="card-title">{{ object.profile.get_role_display }}</h5>
+                    </div>
+                </div>
+            </div>
+
         {% endif %}
 
-    {% endfor %}
-    </ul>
-    
-    <a href="{% url 'projects_list' %}"><input class="btn btn-dark" type="button" value="Projects"></a>
 
+        {% if object.baseproject_set.all %}
+            <h3 style="padding: 15px">Projects as Project manager:</h3>
+            {% show_projects_as_manager base_projects=object.baseproject_set.all request=request %}
+        {% endif %}
+
+
+        {% if object.project_set.all %}
+            <h3 style="padding: 15px">Projects as Employee:</h3>
+            {% show_projects_as_employee projects=object.project_set.all request=request %}
+        {% endif %}
+
+
+        <a href="{% url 'projects_list' %}" style="padding: 15px">
+            <input class="btn btn-primary" type="button" value="All Projects"></a>
+    </div>
 {% endblock %}

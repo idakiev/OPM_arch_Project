@@ -1,37 +1,38 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
+
 {% block title %}
-    Project Create Page
+    Client Create Page
 {% endblock %}
 
 {% block content %}
 
     {% if request.user.is_staff %}
 
+
         <div class="container">
             <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
-                class="row justify-content-center col-sm-4">Create New Project</h2>
+                class="row justify-content-center col-sm-4">Create New Client</h2>
         </div>
 
         <br>
 
-        <form class="post-form" method="post" action="{% url 'projects_create' %}">
+        <form class="post-form" method="post" action="{% url 'clients_create' %}">
 
             <div class="container">
                 <div class="row justify-content-left">
                     <div class="col-sm-4">
+
                         {% csrf_token %}
 
                         {% crispy form %}
 
                         <button class="btn btn-secondary">Create</button>
-
                     </div>
                 </div>
             </div>
-        </form>
 
+        </form>
 
     {% else %}
         You do not have permissions for that!

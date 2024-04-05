@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    
+    Authentication Error
+    
+{% endblock %}
+
+{% block content %}
+    
+    <meta http-equiv="refresh" content="10;{% url 'index' %}">
+    
+    <h1>Authentication successful</h1>
+    <h2>Please check your email for more instructions.</h2>
+    <h3>Shortly, you will be redirected to Log In page</h3>
+    <h4>or click 
+        <a href="{% url 'index' %}">
+            <button>Here</button>
+        </a>
+    </h4>
+    
+{% endblock %}

@@ -1,0 +1,7 @@
+services:
+  # Fake SMTP server
+  mailcatcher:
+    image: dockage/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
