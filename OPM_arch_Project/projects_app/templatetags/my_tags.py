@@ -1,3 +1,5 @@
+import os
+
 from django import template
 
 from OPM_arch_Project.projects_app.models import Project
@@ -21,3 +23,18 @@ def show_projects_as_employee(request, projects):
 def show_projects_as_manager(request, base_projects):
 
     return {'base_projects': base_projects, 'request': request}
+
+
+@register.filter
+def filename(value):
+    return os.path.basename(value.file.name)
+
+
+@register.filter(name='get_range')
+def get_range(number):
+    return range(number)
+
+
+@register.filter(name='get_from_dict')
+def get_from_dict(my_dict, i):
+    return my_dict.get(i, None)

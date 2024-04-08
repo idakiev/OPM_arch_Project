@@ -62,7 +62,14 @@ def check_auth_user(request):
 
 
 def check_auth_success(request):
-    return render(request, 'accounts_app/check_auth_success.html')
+
+    email = request.POST.get('email', None)
+    user = UserModel.objects.filter(email=email).first()
+    if user and user.verification_code:
+
+        return render(request, 'accounts_app/check_auth_success.html')
+
+    return render(request, template_name='404.html')
 
 
 class ProfileUserView(auth_mixins.LoginRequiredMixin, views.ListView):

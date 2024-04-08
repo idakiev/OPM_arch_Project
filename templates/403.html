@@ -1,25 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Access Denied</title>
-</head>
-<body>
-    <h1>403 ACCESS FORBIDDEN</h1>
-    
-    <p>You do not have permissions to do that!</p>
+{% extends 'base.html' %}
 
-    <input type="button" value="Go Back" onclick="history.back()">
-    
-    <a href="{% url 'index' %}">
-        <input type="button" value="Return to Home" onclick="msg()">
-    </a>
+{% block title %}
 
-<script>
-    function msg() {
-        alert("You will be redirected to Home");
-    }
-</script>
+    Access Denied
 
-</body>
-</html>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="col-sm-10 col-sm-offset-1  text-center">
+                    <h1 class="fw-bold">403</h1>
+
+
+                    <h3 class="h2">
+                        Access Forbidden!
+                    </h3>
+
+                    <p>Please contact your administrator for more information.</p>
+
+                    <a>
+                        <input class="btn" type="submit" value="Return Back" onclick="history.back()">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

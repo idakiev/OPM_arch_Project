@@ -16,6 +16,13 @@ class AppProfileAdmin(admin.ModelAdmin):
     model = Profile
     form = EditProfileForm
 
+    list_display = ('user', 'get_name', 'speciality', 'role', 'show_client')
+
+    @admin.display(description='Client')
+    def show_client(self, obj):
+        user = UserModel.objects.filter(pk=obj.user.pk).first()
+        return user.client
+
 
 @admin.register(UserModel)
 class AppUserAdmin(UserAdmin):
@@ -23,7 +30,7 @@ class AppUserAdmin(UserAdmin):
     add_form = CreateUserForm
     form = EditUserForm
 
-    list_display = ('pk', 'email', 'is_staff', 'is_active', "is_superuser",)
+    list_display = ('pk', 'email', 'client', 'is_staff', 'is_active', "is_superuser",)
     search_fields = ('email',)
     ordering = ('pk',)
     fieldsets = (

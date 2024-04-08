@@ -12,12 +12,12 @@
 
         <div class="container">
             <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
-                class="row justify-content-center col-sm-4">{{ object.name }}</h2>
+                class="row justify-content-center col-lg-6">{{ object.name }}</h2>
         </div>
 
         <div class="container">
             <i><a style="text-decoration: none; color: black" href="{{ object.website }}"
-                  class="row justify-content-center col-sm-4">{{ object.website }}</a></i>
+                  class="row justify-content-center col-lg-6">{{ object.website }}</a></i>
             <br>
         </div>
 
@@ -25,7 +25,7 @@
 
             <div class="container">
                 <div class="row justify-content-left">
-                    <div class="col-sm-4">
+                    <div class="col-lg-6">
 
                         {% csrf_token %}
 

@@ -6,19 +6,29 @@
 
 {% block content %}
 
-<body>
-    
-    {% if request.user.client %}
-        <div class="container-fluid">
-        <h2 style="padding: 15px">All projects of <i><strong>{{ request.user.client }}</strong></i>:</h2>
-        
-        {% show_projects projects=project_list %}
-        
-    {% endif %}
-    
-    <a href="{% url 'projects_create' %}" style="padding: 15px"><button class="btn btn-primary">Add new project</button></a>
-    </div>
+    <body>
 
-</body>
+    {% if request.user.client %}
+
+        <div class="container m-1 table-responsive" style="padding: 15px">
+            <div class="card border-secondary mb-3">
+                <div class="card-body text-dark">
+                    <h5 class="card-title" style="text-align: center">
+                        All projects of <i><strong>{{ request.user.client }}</strong></i></h5>
+                </div>
+            </div>
+        </div>
+
+        {% show_projects projects=project_list %}
+
+    {% endif %}
+
+    {% if request.user.is_staff %}
+        <a href="{% url 'projects_create' %}" style="padding: 15px">
+            <button class="btn btn-primary">Add new project</button>
+        </a>
+    {% endif %}
+
+    </body>
 
 {% endblock %}

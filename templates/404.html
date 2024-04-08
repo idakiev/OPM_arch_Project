@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Page not found
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="col-sm-10 col-sm-offset-1  text-center">
+                    <h1 class="fw-bold">404</h1>
+
+
+                    <h3 class="h2">
+                        Looks like you're lost
+                    </h3>
+
+                    <p>The page you are looking for is not available!</p>
+
+                    <a href="{% url 'index' %}">
+                        <input class="btn" type="submit" value="Return to Home" onclick="msg()">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<script>
+    function msg() {
+        alert("You will be redirected to Home");
+    }
+</script>
+
+{% endblock %}

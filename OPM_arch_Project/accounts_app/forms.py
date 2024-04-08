@@ -26,7 +26,7 @@ class LoginUserForm(auth_forms.AuthenticationForm):
 
         if email is not None and password:
             user = UserModel.objects.filter(email=email).first()
-            if user.check_password(password) and not user.is_active and user.verification_code:
+            if user and user.check_password(password) and not user.is_active and user.verification_code:
                 user.is_active = True
                 user.verification_code = False
                 user.save()

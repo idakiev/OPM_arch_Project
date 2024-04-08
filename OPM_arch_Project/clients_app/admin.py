@@ -21,6 +21,7 @@ class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'city', 'street_name', 'street_number', 'is_active', 'is_main', 'number_of_employees')
     list_filter = ['is_active', 'is_main', 'name', 'city',]
     sortable_by = ['name', 'city', 'is_main', 'is_active',]
+    ordering = ['-is_main', 'name']
     fields = (
         'name', 'country', 'city', 'street_name', 'street_number',
         'telephone_number', 'website', 'is_active', 'is_main',

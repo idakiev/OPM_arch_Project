@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 
+from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -112,7 +113,7 @@ class Project(Timestamp, models.Model):
     )
     employees = models.ManyToManyField(
         UserModel,
-        limit_choices_to={"is_staff": True},
+        limit_choices_to={"client__is_main": True},
         default=None,
         blank=True,
     )
@@ -138,7 +139,7 @@ class Project(Timestamp, models.Model):
     )
 
     def __str__(self):
-        return f"{self.base_project} - {self.status}"
+        return f"{self.base_project}"
 
     def get_project_timeframe(self):
         if self.start_date and self.end_date:
@@ -148,8 +149,17 @@ class Project(Timestamp, models.Model):
 
             return timeframe.days
 
+    @admin.display(description="Client")
+    def get_client_name(self):
+        return self.base_project.client
+
 
 class ProjectFile(Timestamp, models.Model):
+    TITLE_MAX_LENGTH = 25
+
+    title = models.CharField(
+        max_length=TITLE_MAX_LENGTH,
+    )
     file = models.FileField(
         upload_to="media/projects_files",
         validators=(
@@ -160,6 +170,13 @@ class ProjectFile(Timestamp, models.Model):
         to=Project,
         on_delete=models.RESTRICT,
     )
+    uploaded_by = models.ForeignKey(
+        to=UserModel,
+        on_delete=models.RESTRICT,
+    )
+
+    def __str__(self):
+        return f"{self.project.base_project.name} - {self.title}"
 
 
 class ProjectComment(Timestamp, models.Model):
@@ -178,6 +195,9 @@ class ProjectComment(Timestamp, models.Model):
         to=UserModel,
         on_delete=models.RESTRICT,
     )
+
+    def __str__(self):
+        return f"{self.user} - {self.project}"
 
     class Meta:
         ordering = ["created_at"]

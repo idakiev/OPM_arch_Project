@@ -1,7 +1,7 @@
 
 <header>
 
-    <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'index' %}">OPM /arch</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -22,12 +22,15 @@
                                  <a class="nav-link disabled" aria-disabled="true"><i>part of <strong>{{ request.user.client }}</strong></i></a>
                              </li>
                         {% endif %}
-                                                
+                        
+                        {% if request.user.client.is_main %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.view_name == 'profile_details' %}active{% endif %}"
                                aria-current="page"
                                href="{% url 'profile_details' pk=request.user.pk %}">My Work</a>
                         </li>
+                        {% endif %}
+                        
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.view_name == 'profile_user' %}active{% endif %}"
                                href="{% url 'profile_user' %}">Profile</a>
@@ -36,13 +39,17 @@
                             <a class="nav-link {% if request.resolver_match.view_name == 'projects_list' %}active{% endif %}"
                                href="{% url 'projects_list' %}">Projects</a>
                         </li>
+                        
+                        {% if request.user.is_staff %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.view_name == 'clients_create' %}active{% endif %}"
                                href="{% url 'clients_create' %}">Create Client</a>
                         </li>
+                        {% endif %}
+                            
                         <li class="nav-item">
                             <a class="nav-link {% if request.resolver_match.view_name == 'clients_list' %}active{% endif %}"
-                               href="{% url 'clients_list' %}">Details Client</a>
+                               href="{% url 'clients_list' %}">Client Details</a>
                         </li>
                     {% endif %}
 

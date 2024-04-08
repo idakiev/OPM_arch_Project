@@ -1,5 +1,6 @@
 from enum import Enum
 
+from django.contrib import admin
 from django.db import models
 from django.contrib.auth import models as auth_models
 
@@ -107,6 +108,7 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.email} - {self.first_name} {self.last_name}"
 
+    @admin.display(description="Full Name")
     def get_name(self):
         if self.first_name is not None and self.last_name is not None:
             return f"{self.first_name} {self.last_name}"

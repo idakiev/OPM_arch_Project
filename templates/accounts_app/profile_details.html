@@ -9,11 +9,6 @@
 
     <div class="container-fluid">
 
-        {% if not request.user.client.is_main and request.user.pk != object.pk %}
-
-
-        {% else %}
-
             <div class="container m-1 table-responsive" style="padding: 15px">
                 <div class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
@@ -27,17 +22,29 @@
                 </div>
             </div>
 
-        {% endif %}
-
-
         {% if object.baseproject_set.all %}
-            <h3 style="padding: 15px">Projects as Project manager:</h3>
+            <div class="container m-1 table-responsive" style="padding: 15px">
+                <div class="card border-secondary mb-3">
+                    <div class="card-body text-dark">
+                        <h5 class="card-title" style="text-align: center">Projects as
+                            <i><strong>Project manager</strong></i></h5>
+                    </div>
+                </div>
+            </div>
+
             {% show_projects_as_manager base_projects=object.baseproject_set.all request=request %}
         {% endif %}
 
-
         {% if object.project_set.all %}
-            <h3 style="padding: 15px">Projects as Employee:</h3>
+            <div class="container m-1 table-responsive" style="padding: 15px">
+                <div class="card border-secondary mb-3">
+                    <div class="card-body text-dark">
+                        <h5 class="card-title" style="text-align: center">Projects as
+                            <i><strong>Employee</strong></i></h5>
+                    </div>
+                </div>
+            </div>
+
             {% show_projects_as_employee projects=object.project_set.all request=request %}
         {% endif %}
 

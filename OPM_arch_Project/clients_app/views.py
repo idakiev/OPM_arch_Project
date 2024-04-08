@@ -1,4 +1,4 @@
-
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -17,6 +17,20 @@ class ClientsDetailView(auth_mixins.LoginRequiredMixin, views.DetailView):
     template_name = 'clients_app/clients_details.html'
     model = Client
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated and not self.check_request_permissions():
+            return self.handle_no_permission()
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def check_request_permissions(self):
+
+        if self.request.user.client != self.get_object()\
+                and not self.request.user.is_staff:
+            raise PermissionDenied
+
+        return True
+
 
 class ClientsCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     template_name = 'clients_app/clients_create.html'
@@ -24,7 +38,7 @@ class ClientsCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = ClientsCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('clients_details')
+        return reverse_lazy('clients_details', kwargs={'pk': self.object.pk})
 
 
 class ClientsUpdateView(auth_mixins.LoginRequiredMixin, views.UpdateView):

@@ -5,7 +5,7 @@ from django.urls import path
 from OPM_arch_Project.web_app import views
 
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.index, name='index'),
 ]
 
 if settings.DEBUG:
