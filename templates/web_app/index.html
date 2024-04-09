@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load my_tags %}
 {% load static %}
 
 {% block title %}
@@ -10,23 +11,65 @@
 
     {% if user.is_authenticated %}
 
-        <a href="{% url 'profile_user' %}">
-            <button>Profile Page</button>
-        </a>
+        <div class="mb-4 bg-body-tertiary rounded-3">
+            <div class="container-fluid py-4">
+                <img class="mb-4" src="{% static 'images/icons8-arch-64.png' %}" alt="logo.png" width="64" height="64">
+                <h1 class="display-10 fw-medium"><strong class="fw-bold"> Hello, </strong>{{ request.user }}</h1>
+                <p class="col-md-8 fs-4">Check the projects assigned to you.</p>
+                <a href="{% url 'profile_details' pk=request.user.pk %}" class="btn btn-primary btn-lg" type="button">My
+                    Work</a>
+            </div>
+        </div>
 
-        <form method="post" action="{% url 'logout_user' %}">
-            {% csrf_token %}
-            <button>Log out</button>
-        </form>
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div class="h-100 p-5 text-bg-dark rounded-3">
+                    <h2>Projects of <i>{{ request.user.client.name }}</i></h2>
+                    <p>Check all current projects of your company.</p>
+                    <a href="{% url 'projects_list' %}" class="btn btn-outline-light" type="button">Projects</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                    <h2>Customize your Profile</h2>
+                    <p>Add additional information to your public profile.</p>
+                    <a href="{% url 'profile_user' %}" class="btn btn-outline-secondary" type="button">Profile</a>
+                </div>
+            </div>
+        </div>
+
+        {% if request.user|has_group:"Moderator" %}
+            <br>
+            <div class="row align-items-md-stretch">
+
+                <div class="col-md-6">
+                    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                        <h2>Add new Client</h2>
+                        <p>You can add new clients that has recently started working with your organization.</p>
+                        <a href="{% url 'clients_create' %}" class="btn btn-outline-secondary" type="button">Create
+                            Client</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="h-100 p-5 text-bg-dark rounded-3">
+                        <h2>All recent clients of <i>{{ request.user.client.name }}</i></h2>
+                        <p>Check all the clients that you are currently working with.</p>
+                        <a href="{% url 'clients_list' %}" class="btn btn-outline-light" type="button">Clients</a>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
 
     {% else %}
 
-        <div class="container">
+        <div class="container py-4">
             <img class="mb-4" src="{% static 'images/icons8-arch-64.png' %}" alt="logo.png" width="64" height="64">
             <h1 class="h3 mb-3 fw-normal"><strong>Log</strong> In</h1>
 
             <div class="row justify-content-left">
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <ul class="list-group" style="text-align: center">
                         <li class="list-group-item active" aria-current="true">
                             <a href="{% url 'login_user' %}">
@@ -39,7 +82,7 @@
                         </li>
                         <li class="list-group-item text-secondary"></li>
                         <li class="list-group-item text-secondary">If you don't have an account, you can</li>
-                        
+
                         <li class="list-group-item bg-secondary">
                             <a href="{% url 'auth' %}">
                                 <div class="d-grid">
@@ -54,5 +97,5 @@
         </div>
 
     {% endif %}
-                                       
+
 {% endblock %}

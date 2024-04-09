@@ -13,8 +13,9 @@
                 <div class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
                         <h5 class="card-title">{{ object.email }}</h5>
+                    <hr>
                         {% if object.profile.get_name %}
-                            <h5 class="card-title">{{ object.profile.get_name }}</h5>
+                            <h5 class="card-title fw-bold">{{ object.profile.get_name }}</h5>
                         {% endif %}
                         <h5 class="card-title">{{ object.profile.get_speciality_display }}</h5>
                         <h5 class="card-title">{{ object.profile.get_role_display }}</h5>

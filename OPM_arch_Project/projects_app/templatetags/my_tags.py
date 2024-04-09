@@ -38,3 +38,8 @@ def get_range(number):
 @register.filter(name='get_from_dict')
 def get_from_dict(my_dict, i):
     return my_dict.get(i, None)
+
+
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()

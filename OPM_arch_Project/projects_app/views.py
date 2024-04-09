@@ -93,7 +93,7 @@ class ProjectsFilesDetailView(auth_mixins.LoginRequiredMixin,views.DetailView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
 
-        all_files = ProjectFile.objects.filter(project_id=self.object.project.pk)
+        all_files = ProjectFile.objects.filter(project_id=self.object.project.pk).order_by('-modified_at')
         result['all_files'] = all_files
         return result
 
