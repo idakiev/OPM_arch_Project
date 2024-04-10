@@ -6,15 +6,53 @@
 
 {% block content %}
 
-    {{ object.name }}
-    {{ object.city }}
-    {{ object.website }}
-    
-    <ul>
+    <div class="card col-lg-6">
+        <div class="card-header fw-bold">
+            {{ object.name }}
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ object.street_name }} {{ object.street_number }}
+                - {{ object.city }}, {{ object.country }}</li>
+            <li class="list-group-item">{{ object.telephone_number }}</li>
+            <li class="list-group-item"><a href="{{ object.website }}"
+                                           style="text-decoration: none">{{ object.website }}</a></li>
+            </ul>
+                <a class="btn d-grid " href="{% url 'clients_update' pk=object.pk %}">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </a>
+
+            
+    </div>
+
+    <div class="list-group col-lg-6 mt-3">
+        <a class="btn btn-outline-dark" data-bs-toggle="collapse"
+           href="#collapseClients" role="button" aria-expanded="false" aria-controls="collapseClients">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 fw-bold "><i class="bi bi-chevron-down me-2"></i>List of all Projects</h5>
+                <small>{{ object.baseproject_set.all.count }} projects</small>
+            </div>
+        </a>
+    </div>
+
+
     {% for project in object.baseproject_set.all %}
-        <li>
-            {{ project.name }}
-        </li>
+
+        <div class="collapse" id="collapseClients">
+            <div class="list-group col-lg-6">
+
+                <a href="{% url 'projects_details' pk=project.pk %}" class="list-group-item list-group-item-action"
+                   aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 fw-bold">{{ project.name }}</h5>
+                        <small>{{ project.get_project_phase_display }}</small>
+                    </div>
+                    <p class="mb-1">{{ project.city }}, {{ project.municipality }}</p>
+                    <small>{{ project.get_project_type_display }}</small>
+                </a>
+
+            </div>
+        </div>
+
     {% endfor %}
-    </ul>
+
 {% endblock %}

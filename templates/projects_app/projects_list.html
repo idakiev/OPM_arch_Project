@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% load my_tags %}
 {% block title %}
     Projects Details Page
@@ -7,16 +8,10 @@
 {% block content %}
 
     <body>
-    
-    <form method="get" action="">
-        
-{# TODO: Implement search bar!#}
-        
-    </form>
 
     {% if request.user.client %}
 
-        <div class="container m-1 table-responsive" style="padding: 15px">
+        <div class="container m-1 table-responsive pt-3">
             <div class="card border-secondary mb-3">
                 <div class="card-body text-dark">
                     <h5 class="card-title" style="text-align: center">
@@ -24,6 +19,22 @@
                 </div>
             </div>
         </div>
+
+        <form method="get" action="">
+            <div class="row m-1">
+                <div class="col-lg-4" id="searchbar">
+
+                    {{ search_form|crispy }}
+
+                </div>
+                <div class="col-lg-8 ps-3">
+                    <button type="submit" class="btn btn-sm btn-light btn-outline-secondary" style="--bs-btn-padding-y: .3rem">
+                        Search<i class="bi bi-search ps-2"></i>
+                    </button>
+                    
+                </div>
+            </div>
+        </form>
 
         {% show_projects projects=project_list %}
 

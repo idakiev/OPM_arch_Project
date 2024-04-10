@@ -7,8 +7,6 @@
 
 {% block content %}
 
-    {% if request.user.is_staff %}
-
         <div class="container">
             <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
                 class="row justify-content-center col-lg-6">Create New Project</h2>
@@ -32,10 +30,5 @@
                 </div>
             </div>
         </form>
-
-
-    {% else %}
-        You do not have permissions for that!
-    {% endif %}
 
 {% endblock %}

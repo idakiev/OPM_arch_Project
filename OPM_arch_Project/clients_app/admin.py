@@ -50,6 +50,7 @@ class MunicipalityAdmin(admin.ModelAdmin):
     inlines = [
         CitiesInLine
     ]
+    search_fields = ['name', 'province', 'region',]
 
     def cities_count(self, request):
         count = City.objects.filter(municipality__name=request.name).count()
@@ -61,3 +62,4 @@ class CityAdmin(admin.ModelAdmin):
     model = City
     list_display = ('name', 'municipality',)
     list_filter = ('municipality',)
+    search_fields = ['name', 'municipality__name']

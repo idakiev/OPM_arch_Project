@@ -7,36 +7,29 @@
 
 {% block content %}
 
-    {% if request.user.is_staff %}
+    <div class="container">
+        <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
+            class="row justify-content-center col-lg-6">Create New Client</h2>
+    </div>
 
+    <br>
+
+    <form class="post-form" method="post" action="{% url 'clients_create' %}">
 
         <div class="container">
-            <h2 style="font-size: x-large; border: lightslategrey; border-style: solid; border-radius: 8px"
-                class="row justify-content-center col-lg-6">Create New Client</h2>
-        </div>
+            <div class="row justify-content-left">
+                <div class="col-lg-6">
 
-        <br>
+                    {% csrf_token %}
 
-        <form class="post-form" method="post" action="{% url 'clients_create' %}">
+                    {% crispy form %}
 
-            <div class="container">
-                <div class="row justify-content-left">
-                    <div class="col-lg-6">
-
-                        {% csrf_token %}
-
-                        {% crispy form %}
-
-                        <button type="submit" class="btn btn-primary">Create</button>
-                        <button type="reset" class="btn btn-secondary" onclick="history.back()">Cancel</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="reset" class="btn btn-secondary" onclick="history.back()">Cancel</button>
                 </div>
             </div>
+        </div>
 
-        </form>
-
-    {% else %}
-        You do not have permissions for that!
-    {% endif %}
+    </form>
 
 {% endblock %}

@@ -3,7 +3,6 @@ from django.contrib.auth import mixins as auth_mixins, get_user_model
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import views as auth_views
-from django.contrib.auth import forms as auth_forms
 
 from django.shortcuts import render, redirect
 
@@ -26,12 +25,6 @@ class LoginUserView(auth_views.LoginView):
             return redirect('user_change_password')
 
         return result
-
-    #
-    # def form_valid(self, form):
-    #     email = form.cleaned_data['email']
-    #
-    #     return redirect('change_password', email=email)
 
 
 class LogOutUserView(auth_views.LogoutView):

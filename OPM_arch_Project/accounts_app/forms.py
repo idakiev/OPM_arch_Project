@@ -54,7 +54,6 @@ class ChangePasswordUserForm(auth_forms.PasswordChangeForm):
             })
 
 
-# TODO: Check how to fix the auth process if email is existing in the db.
 class CheckAuthForm(forms.ModelForm):
 
     def clean(self):

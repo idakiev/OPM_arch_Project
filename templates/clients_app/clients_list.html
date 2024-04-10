@@ -6,19 +6,52 @@
 
 {% block content %}
 
-    <h1>You are part of:</h1>
-    {{ request.user.client }}
-    {{ request.user.client.website }}
-    {{ request.user.client.city }}
-    {{ request.user.client.telephone_number }}
-
+    <div class="card col-lg-6">
+        <div class="card-header fw-bold">
+            {{ request.user.client }}
+            <a href="{% url 'clients_details' pk=request.user.client.pk %}">
+                            <i class="bi bi-pencil-square" style="color: lightslategray"></i>
+                        </a>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ request.user.client.street_name }} {{ request.user.client.street_number }}
+                - {{ request.user.client.city }}, {{ request.user.client.country }}</li>
+            <li class="list-group-item">{{ request.user.client.telephone_number }}</li>
+            <li class="list-group-item"><a href="{{ request.user.client.website }}"
+                                           style="text-decoration: none">{{ request.user.client.website }}</a></li>
+        </ul>
+    </div>
 
 
     {% if request.user.is_staff %}
-        <h2>List of all the clients:</h2>
+
+        <div class="list-group col-lg-6 mt-3">
+            <a class="btn btn-dark" data-bs-toggle="collapse"
+               href="#collapseClients" role="button" aria-expanded="false" aria-controls="collapseClients">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 fw-bold "><i class="bi bi-chevron-down me-2"></i>List of all Clients</h5>
+                    <small>{{ clients_count }} clients | {{ all_projects_count }} projects</small>
+                </div>
+            </a>
+        </div>
         {% for client in client_list %}
             {% if not client.is_main %}
-                <li><a href="{% url 'clients_details' pk=client.pk %}">{{ client.name }}</a></li>
+                <div class="collapse" id="collapseClients">
+                    <div class="list-group col-lg-6">
+
+                        <a href="{% url 'clients_details' pk=client.pk %}"
+                           class="list-group-item list-group-item-action"
+                           aria-current="true">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 fw-bold">{{ client.name }}</h5>
+                                <small>{{ client.baseproject_set.all.count }} projects</small>
+                            </div>
+                            <p class="mb-1">{{ client.city }}, {{ client.country }}</p>
+                            <small>{{ client.telephone_number }}</small>
+                        </a>
+
+                    </div>
+                </div>
             {% endif %}
         {% endfor %}
     {% endif %}

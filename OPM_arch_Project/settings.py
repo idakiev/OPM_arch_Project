@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -83,6 +83,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 'OPM_arch_Project.core.processors.main_client',
+                'OPM_arch_Project.core.processors.clients_count',
+                'OPM_arch_Project.core.processors.all_projects_count',
             ],
         },
     },

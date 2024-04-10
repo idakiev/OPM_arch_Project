@@ -17,6 +17,7 @@ class AppProfileAdmin(admin.ModelAdmin):
     form = EditProfileForm
 
     list_display = ('user', 'get_name', 'speciality', 'role', 'show_client')
+    list_filter = ['role', 'speciality',]
 
     @admin.display(description='Client')
     def show_client(self, obj):

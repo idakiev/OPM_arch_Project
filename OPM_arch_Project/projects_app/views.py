@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import request
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -6,7 +7,7 @@ from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixins
 
 from OPM_arch_Project.projects_app.forms import ProjectsCreateForm, ProjectsUpdateForm, ProjectsCommentForm, \
-    BaseProjectUpdateForm, ProjectsFilesCreateForm, ProjectsFilesUpdateForm, ProjectsFilesDeleteForm
+    BaseProjectUpdateForm, ProjectsFilesCreateForm, ProjectsFilesUpdateForm, ProjectsFilesDeleteForm, SearchForm
 from OPM_arch_Project.projects_app.models import Project, BaseProject, ProjectComment, ProjectFile
 
 
@@ -15,12 +16,22 @@ class ProjectsListView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = 'projects_app/projects_list.html'
     ordering = ['-pk']
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['search_form'] = SearchForm(self.request.GET or None)
+
+        return context
+
     def get_queryset(self):
         result = super().get_queryset()
-        projects = Project.objects.filter(base_project__client=self.request.user.client)
+        project_name_pattern = self.request.GET.get('project_name', None)
 
         if self.request.user.client is None or not self.request.user.client.is_main:
-            return projects
+            result = Project.objects.filter(base_project__client=self.request.user.client)
+
+        if project_name_pattern:
+            filter_query = Q(base_project__name__icontains=project_name_pattern)
+            return result.filter(filter_query)
 
         return result
 

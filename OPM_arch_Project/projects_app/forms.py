@@ -91,3 +91,16 @@ class ProjectsFilesDeleteForm(forms.ModelForm):
     class Meta:
         model = ProjectFile
         fields = '__all__'
+
+
+class SearchForm(forms.Form):
+
+    project_name = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Search by project name...'
+            }
+        ),
+        label=''
+    )
