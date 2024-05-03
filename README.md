@@ -11,11 +11,11 @@ https://github.com/idakiev/OPM_arch_Project/assets/122561971/b75eb2f8-9d1e-4073-
 
 ## Table of Content
 
-- [Usage]()
+- [Usage](https://github.com/idakiev/OPM_arch_Project#Usage)
 - [Features]()
 - [Technologies Used]()
 - [Installation]()
-- [License]()
+- [License](https://github.com/idakiev/OPM_arch_Project#License)
 
 ## Usage
 
