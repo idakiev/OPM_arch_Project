@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from decouple import config
+from decouple import config, Csv
 from django.conf import global_settings
 from django.urls import reverse_lazy
 
@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
@@ -178,4 +178,4 @@ if DEBUG:
     EMAIL_HOST_USER = config('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
     EMAIL_PORT = config('EMAIL_PORT')
-    EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)

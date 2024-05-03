@@ -11,6 +11,7 @@ def main_client(request):
         }
 
         return context
+    return {}
 
 
 def clients_count(request):
