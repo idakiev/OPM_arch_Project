@@ -13,7 +13,7 @@ https://github.com/idakiev/OPM_arch_Project/assets/122561971/b75eb2f8-9d1e-4073-
 
 - [Usage](https://github.com/idakiev/OPM_arch_Project#usage)
 - [Features](https://github.com/idakiev/OPM_arch_Project#features)
-- [Technologies Used](https://github.com/idakiev/OPM_arch_Project#Technologies%20Used)
+- [Technologies Used](https://github.com/idakiev/OPM_arch_Project#technologies-used)
 - [Installation](https://github.com/idakiev/OPM_arch_Project#installation)
 - [License](https://github.com/idakiev/OPM_arch_Project#license)
 
